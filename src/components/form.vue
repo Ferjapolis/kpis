@@ -159,66 +159,66 @@ export default {
       ],
       desserts: [{
         name: 'Enero',
-        valor: 159,
-        target: 6.0,
-        stats: 24,
-        predict: 4.0
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Febrero',
-        valor: 237,
-        target: 9.0,
-        stats: 37,
-        predict: 4.3
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Marzo',
-        valor: 262,
-        target: 16.0,
-        stats: 23,
-        predict: 6.0
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Abril',
-        valor: 305,
-        target: 3.7,
-        stats: 67,
-        predict: 4.3
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Mayo',
-        valor: 356,
-        target: 16.0,
-        stats: 49,
-        predict: 3.9
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Junio',
-        valor: 375,
-        target: 0.0,
-        stats: 94,
-        predict: 0.0
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Julio',
-        valor: 392,
-        target: 0.2,
-        stats: 98,
+        valor: 0,
+        target: 0,
+        stats: 0,
         predict: 0
       },
       {
         name: 'Agosto',
-        valor: 408,
-        target: 3.2,
-        stats: 87,
-        predict: 6.5
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Septiembre',
-        valor: 452,
-        target: 25.0,
-        stats: 51,
-        predict: 4.9
+        valor: 0,
+        target: 0,
+        stats: 0,
+        predict: 0
       },
       {
         name: 'Octubre',
@@ -299,7 +299,7 @@ export default {
       this.save()
     },
     guardar () {
-      const formData = { lista: this.desserts, kpi: 'MRT' }
+      const formData = { lista: this.desserts, kpi: this.$store.state }
       axios.post('http://192.168.0.127:5000/registro', formData, {
         headers: {
           'Access-Control-Allow-Origin': '*',
