@@ -6,11 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     kpi: null,
-    datos: []
+    datos: [],
+    area: null
   },
   mutations: {
-    addKpi (state, item) {
+    selectKpi (state, item) {
       state.kpi = item
+    },
+    selectArea (state, item) {
+      state.area = item
+    },
+    selectKpidatos (state, item) {
+      state.datos = item
     }
   },
   actions: {

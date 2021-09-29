@@ -258,6 +258,12 @@ export default {
       }
     }
   },
+  watch: {
+    '$store.state.kpi': function () {
+      this.kpi = this.$store.state.kpi
+      this.datos()
+    }
+  },
   computed: {
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -311,6 +317,27 @@ export default {
           this.save()
         }).catch(response => {
           this.cancel()
+        })
+    },
+    datos () {
+      console.log(this.kpi.kpi)
+      axios.get('http://192.168.0.127:5000/registro', {
+        params: {
+          kpi: this.kpi.kpi
+        }
+      },
+      {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+        }
+      })
+        .then(response => {
+          console.log(response.data.datos)
+          this.desserts = response.data.datos[0].datos
+        }).catch(function (error) {
+          console.log(error)
         })
     }
   }

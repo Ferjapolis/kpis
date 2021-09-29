@@ -14,10 +14,20 @@
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
 
-          <v-select v-model="select" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar" required>
+          <v-select v-model="edit.pilar" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar"
+            required>
           </v-select>
 
-          <v-text-field v-model="name" :counter="10" :rules="nameRules" label="KPI" required></v-text-field>
+          <v-text-field v-model="edit.kpi" :counter="10" :rules="nameRules" label="KPI" required></v-text-field>
+
+          <v-select v-model="edit.calc_ytd" :items="calc" :rules="[v => !!v || 'Calc is required']" label="Calc. YTD"
+            required>
+          </v-select>
+
+          <v-select v-model="edit.calc_fsct" :items="calc" :rules="[v => !!v || 'Calc is required']" label="Calc. FSCT"
+            required>
+          </v-select>
+          <v-text-field v-model="edit.owner" :counter="10" :rules="nameRules" label="Owner" required></v-text-field>
 
         </v-form>
       </v-card-text>
@@ -30,7 +40,7 @@
           Reset Form
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn v-show="show" :disabled="!valid" color="success" class="mr-4" @click="validate">
+        <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
           Validate
         </v-btn>
 
@@ -64,24 +74,126 @@ export default {
     ],
     select: null,
     items: [
-      'Pilar 1',
-      'Pilar 2',
-      'Pilar 3',
-      'Pilar 4',
-      'Pilar 5'
+      'People',
+      'Sustainability',
+      'Value & Efficient',
+      'Digital & Innovation',
+      'Customer Experient'
     ],
-    checkbox: false
+    calc: [
+      'Max',
+      'Min',
+      'Avg',
+      'Acum'
+    ],
+    checkbox: false,
+    edit: {
+      area: '',
+      pilar: '',
+      kpi: '',
+      calc_ytd: '',
+      calc_fsct: '',
+      stat: 'enabled',
+      owner: '',
+      update: ''
+    },
+    editBak: {
+      area: '',
+      pilar: '',
+      kpi: '',
+      calc_ytd: '',
+      calc_fsct: '',
+      stat: '',
+      owner: '',
+      update: ''
+    },
+    desserts: [{
+      name: 'Enero',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Febrero',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Marzo',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Abril',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Mayo',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Junio',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Julio',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Agosto',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Septiembre',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Octubre',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Noviembre',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    },
+    {
+      name: 'Diciembre',
+      valor: 0,
+      target: 0,
+      stats: 0,
+      predict: 0
+    }
+    ]
   }),
 
-  watch: {
-    name (val) {
-      if (val === '') {
-        this.show = false
-      } else {
-        this.show = true
-      }
-    }
-  },
   methods: {
     validate () {
       this.$refs.form.validate()
@@ -101,13 +213,10 @@ export default {
       this.snackText = texto
     },
     close () {
-      var formData = {
-        pilar: this.select,
-        kpi: this.name
-      }
       if (this.valid) {
-        if (this.select != null & this.name !== '') {
-          axios.post('http://192.168.0.127:5000/kpis', formData, {
+        if (this.edit.pilar != null & this.edit.kpi !== '') {
+          this.edit.area = this.$store.state.area
+          axios.post('http://192.168.0.127:5000/kpis', this.edit, {
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
@@ -117,11 +226,30 @@ export default {
             .then(response => {
               this.dialog = false
               this.save(response.data.stat)
+              this.kpidatos(this.edit.kpi)
+              this.edit = Object.assign({}, this.editBak)
             }).catch(function (error) {
               console.log(error)
             })
         }
       }
+    },
+    kpidatos (kpiname) {
+      axios.post('http://192.168.0.127:5000/registro', {
+        kpi: kpiname,
+        datos: this.desserts
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+        }
+      })
+        .then(response => {
+          console.log('registrado')
+        }).catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
