@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     kpi: null,
     datos: [],
-    area: null
+    area: null,
+    guardado: false
   },
   mutations: {
     selectKpi (state, item) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     selectKpidatos (state, item) {
       state.datos = item
+    },
+    estado (state, item) {
+      state.guardado = item
     }
   },
   actions: {
