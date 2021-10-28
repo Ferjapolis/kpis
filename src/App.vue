@@ -26,7 +26,6 @@ export default {
   }),
   watch: {
     '$store.state.area': function (val) {
-      console.log(val)
       if (val === '') {
         this.show = false
       } else {

@@ -13,9 +13,8 @@
       <v-col cols="3">
         <h4 class="pt-6">Owner: {{kpi.owner}}</h4>
       </v-col>
-      <v-col cols="3">
-         <h5 class="pt-6">last update: {{kpi.update}}</h5>
-      </v-col>
+      <v-spacer></v-spacer>
+      <v-btn>Edit</v-btn>
     </v-row>
     <v-row justify="center">
       <v-col cols="4">
@@ -30,7 +29,7 @@
                   YTD <b>({{this.kpi.calc_ytd}})</b>
                 </div>
                 <v-list-item-title class="text-h3 mb-1">
-                   0
+                   {{ytd}}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -41,10 +40,10 @@
           <v-list-item three-line>
             <v-list-item-content>
               <div class="text-overline mb-1">
-                FSCT <b>({{this.kpi.calc_fsct}})</b>
+                FSCT <b>({{this.kpi.calc_ytd}})</b>
               </div>
               <v-list-item-title class="text-h3 mb-1">
-                0
+                {{fsct}}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -66,7 +65,8 @@
         </div>
       </v-col>
       <v-col cols="5">
-        <Chart :options="chartOptions"></Chart>
+        <Chart/>
+         <h5 class="pt-6">last update: {{kpi.update}}</h5>
       </v-col>
     </v-row>
      <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
@@ -100,11 +100,8 @@ export default {
     snackText: '',
     kpi: {},
     datos: [],
-    chartOptions: {
-      series: [{
-        data: [1, 2, 3] // sample data
-      }]
-    }
+    fsct: 0,
+    ytd: 0
   }),
   watch: {
     '$store.state.kpi': function () {
@@ -114,11 +111,9 @@ export default {
     '$store.state.guardado': function () {
       this.save()
       this.$store.commit('estado', false)
-    }
-  },
-  computed: {
-    regularComputed () {
-      return this.calculo2()
+    },
+    '$store.state.datos': function (val) {
+      this.calculo2(val)
     }
   },
   methods: {
@@ -130,25 +125,46 @@ export default {
       this.snackColor = 'success'
       this.snackText = 'Data saved'
     },
-    calculo2 () {
+    calculo2 (val) {
       var valor = 0
+      var target = 0
       if (this.kpi.calc_ytd === 'Max') {
-        var findTop = []
-        this.datos.forEach(obj => findTop.push(obj.valor))
-        console.log(findTop)
-        return Math.max(...findTop)
+        for (var max of val) {
+          if (parseInt(max.valor) > valor) {
+            valor = parseInt(max.valor)
+          }
+        }
       }
       if (this.kpi.calc_ytd === 'Min') {
-        return valor
+        for (var min of val) {
+          if (min === val[0]) {
+            valor = val[0].valor
+          }
+          if (parseInt(min.valor) < valor) {
+            valor = parseInt(min.valor)
+          }
+        }
       }
       if (this.kpi.calc_ytd === 'Avg') {
-        return valor
+        var total = 0
+        var limit = 1
+        for (var avg of val) {
+          if (parseInt(avg.valor) > 0) {
+            total = total + parseInt(avg.valor)
+            limit = limit + 1
+          }
+        }
+        valor = total / limit
       }
       if (this.kpi.calc_ytd === 'Acum') {
-        return valor
-      } else {
-        return valor
+        for (var acum of val) {
+          if (parseInt(acum.valor) > 0) {
+            valor = valor + parseInt(acum.valor)
+          }
+        }
       }
+      this.fsct = target
+      this.ytd = valor
     }
   }
 }

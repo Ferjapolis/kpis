@@ -9,9 +9,9 @@
       <v-row v-for="(mes, k) in desserts" :key="k" justify="right">
         <v-col cols="5" justify="right"><h4 class="pl-4 text-right pr-4">{{mes.name}}</h4></v-col>
           <v-divider vertical></v-divider>
-        <v-col cols="3"><v-text-field class="text-center"  dense v-model="desserts[k].valor" label=""></v-text-field></v-col>
+        <v-col cols="3"><v-text-field class="text-center" dense v-model="desserts[k].valor" label=""></v-text-field></v-col>
           <v-divider vertical></v-divider>
-        <v-col cols="3"> <v-text-field class="text-center"  dense v-model="desserts[k].target" label=""></v-text-field></v-col>
+        <v-col cols="3"><v-text-field class="text-center" dense v-model="desserts[k].target" label=""></v-text-field></v-col>
           <v-divider vertical></v-divider>
         <v-col><v-icon :color="colorT(estado(desserts[k].valor,desserts[k].target))">{{estado(desserts[k].valor,desserts[k].target)}}</v-icon></v-col>
       </v-row>
@@ -103,6 +103,10 @@ export default {
       } else {
         this.datos()
       }
+    },
+    desserts: function (val) {
+      this.$store.commit('selectKpidatos', val)
+      console.log(this.$store.state.datos)
     }
   },
   computed: {
