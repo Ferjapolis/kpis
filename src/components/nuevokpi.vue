@@ -1,86 +1,120 @@
 <template>
-<v-dialog v-model="dialog"
-        transition="dialog-bottom-transition"
-        fullscreen
-        hide-overlay>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="blue darknes-1" dark v-bind="attrs" v-on="on">
-            Nuevo KPI
-          </v-btn>
-        </template>
+  <v-dialog v-model="dialog" transition="dialog-bottom-transition" fullscreen hide-overlay>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn color="blue darknes-1" dark v-bind="attrs" v-on="on">
+        Nuevo KPI
+      </v-btn>
+    </template>
     <v-card>
       <v-card-title>
-         <v-toolbar
-            dense
-            dark
-            color="primary"
-          >
-            <v-btn
-              icon
-              dark
-              @click="dialog = false"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Registrar Nuevo KPI</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-toolbar-items>
+        <v-toolbar dense dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Registrar Nuevo KPI</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
 
-        <v-btn @click="reset" icon>
-          <v-icon>mdi-reload</v-icon>
-        </v-btn>
-        <v-btn :disabled="!valid" @click="validate" icon>
-          <v-icon>mdi-content-save</v-icon>
-        </v-btn>
-            </v-toolbar-items>
-          </v-toolbar>
+            <v-btn @click="reset" icon>
+              <v-icon>mdi-reload</v-icon>
+            </v-btn>
+            <v-btn :disabled="!valid" @click="validate" icon>
+              <v-icon>mdi-content-save</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
       </v-card-title>
 
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-row>
-            <v-col cols="3">
+          <v-row class="pt-4">
+            <v-col cols="3" class="pl-14">
 
-          <v-select v-model="edit.pilar" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar"
-            required>
-          </v-select>
+              <v-select v-model="edit.pilar" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar"
+                required>
+              </v-select>
 
-          <v-text-field v-model="edit.kpi" :rules="nameRules" label="KPI" required></v-text-field>
-          <v-text-field v-model="edit.owner" :rules="nameRules" label="Owner" required></v-text-field>
-
-          <v-select v-model="edit.calc_ytd" :items="calc" :rules="[v => !!v || 'Calc is required']" label="Tipo de calculo"
-            required>
-          </v-select>
-
-          <v-select v-model="edit.rule" :items="rule" :rules="[v => !!v || 'Type is required']" label="Tipo de Regla"
-            required>
-          </v-select>
-          <v-select v-model="edit.datatype" :items="datatype" :rules="[v => !!v || 'Type is required']" label="Tipo de dato"
-            required>
-          </v-select>
-          <v-select v-model="edit.chart" :items="charts" :rules="[v => !!v || 'Type is required']" label="Tipo de gráfico"
-            required>
-          </v-select>
+              <v-text-field v-model="edit.kpi" :rules="nameRules" label="KPI" required></v-text-field>
+              <v-text-field v-model="edit.owner" :rules="nameRules" label="Owner" required></v-text-field>
+              <v-row class="mb-7">
+                <v-col class="px-2">
+                  <v-text-field class="text-center" v-model="edit.fcst" label="FCST"></v-text-field>
+                </v-col>
+                <v-col class="px-2">
+                  <v-select v-model="edit.datatype" :items="datatype" :rules="[v => !!v || 'Type is required']"
+                    label="Tipo de dato" required>
+                  </v-select>
+                </v-col>
+              </v-row>
+              <v-row class="mb-7">
+                <v-col class="px-2">
+                  <v-select v-model="edit.calc_ytd" :items="calc" :rules="[v => !!v || 'Calc is required']"
+                    label="Tipo de Calc." required>
+                  </v-select>
+                </v-col>
+                <v-col class="px-2">
+                  <v-select v-model="edit.rule" :items="rule" :rules="[v => !!v || 'Type is required']"
+                    label="Tipo de Regla" required>
+                  </v-select>
+                </v-col>
+              </v-row>
+              <v-row class="pt-4 pl-9 pb-7">
+                <h4>Tipo de Gráfico:</h4>
+              </v-row>
+              <v-row>
+                <template v-for="(chart,k) in charts">
+                  <v-tooltip :key="k" bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn class="mx-1 mb-2" :color="chart.color" @click="selecchart(k)" v-bind="attrs"
+                        v-on="on">
+                        <v-icon large>{{chart.icon}}</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Gráfico {{chart.text}}</span>
+                  </v-tooltip>
+                </template>
+              </v-row>
             </v-col>
             <v-col cols="3">
-               <div  class="pt-14">
+              <div class="pt-14">
                 <v-row>
-                    <v-col cols="5"><h5 class="text-center" >Mes</h5></v-col>
-                    <v-col cols="3"><h5 class="text-center" >Valor</h5></v-col>
-                    <v-col cols="3"><h5 class="text-center" >Target</h5></v-col>
+                  <v-col cols="5">
+                    <h5 class="text-center">Mes</h5>
+                  </v-col>
+                  <v-col cols="3">
+                    <h5 class="text-center">Valor</h5>
+                  </v-col>
+                  <v-col cols="3">
+                    <h5 class="text-center">Target</h5>
+                  </v-col>
                 </v-row>
                 <v-row v-for="(mes, k) in desserts" :key="k">
-                  <v-col cols="5" justify="right"><h4 class="pl-4 text-right pr-4">{{mes.name}}</h4></v-col>
-                    <v-divider vertical></v-divider>
-                  <v-col cols="3"><v-text-field class="text-center" dense v-model="desserts[k].valor" label=""></v-text-field></v-col>
-                    <v-divider vertical></v-divider>
-                  <v-col cols="3"> <v-text-field class="text-center" @change="targets(k)" @keyup.down="forcetargets(k)" dense v-model="desserts[k].target" label=""></v-text-field></v-col>
-                    <v-divider vertical></v-divider>
+                  <v-col cols="5" justify="right">
+                    <h4 class="pl-4 text-right pr-4">{{mes.name}}</h4>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="3">
+                    <v-text-field class="text-center" dense v-model="desserts[k].valor"
+                      :placeholder="desserts[k].textv"></v-text-field>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="3">
+                    <v-text-field class="text-center" @change.capture="test" @keyup.down="forcetargets(k)" dense
+                      v-model="desserts[k].target" :placeholder="desserts[k].textt"></v-text-field>
+                  </v-col>
+                  <v-divider vertical></v-divider>
                 </v-row>
               </div>
+              <v-row justify="center">
+                <v-spacer></v-spacer>
+                <v-col class="pl-16">
+                  <v-switch v-model="autotarget" label="Target inteligente" right></v-switch>
+                </v-col>
+                <v-spacer></v-spacer>
+              </v-row>
             </v-col>
             <v-col cols="5">
-               <div>
+              <div>
                 <highcharts class="pt-15" :options="chartOptions" ref="chart"></highcharts>
               </div>
             </v-col>
@@ -90,17 +124,19 @@
       </v-card-text>
     </v-card>
 
-      </v-dialog>
+  </v-dialog>
 </template>
 
 <style scoped>
-.row {
-  height: 30px;
-}
-.row .col {
-  margin: 0px;
-  padding: 0px;
-}
+  .row {
+    height: 30px;
+  }
+
+  .row .col {
+    margin: 0px;
+    padding: 0px;
+  }
+
 </style>
 
 <script>
@@ -114,6 +150,9 @@ export default {
   data: () => ({
     valid: true,
     dialog: false,
+    autotarget: true,
+    typetarget: 0,
+    listtarget: ['Equal', 'Asc', 'Desc'],
     name: '',
     nameRules: [
       v => !!v || 'Name is required'
@@ -130,7 +169,8 @@ export default {
       'Max',
       'Min',
       'Avg',
-      'Acum'
+      'Acum',
+      'Equal'
     ],
     meses: [
       'Enero',
@@ -162,10 +202,62 @@ export default {
       '#.#',
       'None'
     ],
-    charts: [
-      'line',
-      'circle',
-      'bar'
+    charts: [{
+      icon: 'mdi-chart-areaspline',
+      select: false,
+      recomend: false,
+      text: 'Lineal de Area',
+      color: '',
+      type: 'area'
+    },
+    {
+      icon: 'mdi-chart-bell-curve-cumulative',
+      select: false,
+      recomend: false,
+      text: 'Lineal Acumulativo',
+      color: '',
+      type: 'line'
+    },
+    {
+      icon: 'mdi-chart-line',
+      select: false,
+      recomend: false,
+      text: 'Lineal',
+      color: '',
+      type: 'line'
+    },
+    {
+      icon: 'mdi-chart-bar mdi-rotate-90',
+      select: false,
+      recomend: false,
+      text: 'Barras',
+      color: '',
+      type: 'bar'
+    },
+    {
+      icon: 'mdi-chart-bar',
+      select: false,
+      recomend: false,
+      text: 'Columnas',
+      color: '',
+      type: 'column'
+    },
+    {
+      icon: 'mdi-chart-donut',
+      select: false,
+      recomend: false,
+      text: 'Dona',
+      color: '',
+      type: 'donut'
+    },
+    {
+      icon: 'mdi-chart-pie',
+      select: false,
+      recomend: false,
+      text: 'Torta',
+      color: '',
+      type: 'pie'
+    }
     ],
     checkbox: false,
     edit: {
@@ -179,7 +271,8 @@ export default {
       chart: '',
       stat: 'enabled',
       owner: '',
-      update: ''
+      update: '',
+      fsct: null
     },
     editBak: {
       area: '',
@@ -192,12 +285,13 @@ export default {
       chart: '',
       stat: '',
       owner: '',
-      update: ''
+      update: '',
+      fsct: null
     },
     desserts: [],
     chartOptions: {
       chart: {
-        type: 'column'
+        type: 'line'
       },
       title: {
         text: 'Year'
@@ -241,6 +335,27 @@ export default {
   updated () {
     this.valor()
   },
+  watch: {
+    typetarget: function (val) {
+      if (val === 0) {
+        for (var item in this.desserts) {
+          this.desserts[item].textt = this.desserts[0].target.toString()
+        }
+      }
+      if (val === 2) {
+        var valor2 = this.desserts[11].target / 12
+        for (var item2 in this.desserts) {
+          this.desserts[item2].textt = (valor2 * item).toString()
+        }
+      }
+      if (val === 1) {
+        var valor = this.desserts[0].target
+        for (var item1 of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+          this.desserts[item1 - 1].textt = (valor * item1).toString()
+        }
+      }
+    }
+  },
   methods: {
     valor () {
       var valor = []
@@ -275,6 +390,8 @@ export default {
     },
     reset () {
       this.$refs.form.reset()
+      this.chartOptions.series[0].data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.chartOptions.series[1].data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     save () {
       if (this.valid) {
@@ -288,7 +405,7 @@ export default {
             }
           })
             .then(response => {
-              this.kpidatos(this.edit.kpi)
+              this.kpidatos(this.edit.area, this.edit.kpi)
               this.dialog = false
               this.edit = Object.assign({}, this.editBak)
               this.crearYear()
@@ -298,9 +415,10 @@ export default {
         }
       }
     },
-    kpidatos (kpiname) {
+    kpidatos (area, kpiname) {
       axios.post('http://192.168.0.127:5000/registro', {
-        kpi: kpiname,
+        folder: area,
+        file: kpiname,
         lista: this.desserts
       }, {
         headers: {
@@ -318,9 +436,64 @@ export default {
     crearYear () {
       const dic = []
       for (var mes in this.meses) {
-        dic.push({ name: this.meses[mes], valor: null, target: null })
+        dic.push({
+          name: this.meses[mes],
+          valor: null,
+          textv: '0',
+          target: null,
+          textt: '0'
+        })
       }
       this.desserts = dic
+    },
+    anterior () {
+      if (this.typetarget === this.listtarget.length - 1) {
+        this.typetarget = 0
+      } else {
+        this.typetarget = this.typetarget + 1
+      }
+    },
+    siguiente () {
+      if (this.typetarget === 0) {
+        this.typetarget = this.listtarget.length - 1
+      } else {
+        this.typetarget = this.typetarget - 1
+      }
+    },
+    fijar () {
+      for (var item in this.desserts) {
+        this.desserts[item].target = parseInt(this.desserts[item].textt)
+      }
+    },
+    test () {
+      var val = this.typetarget
+      if (val === 0) {
+        for (var item in this.desserts) {
+          this.desserts[item].textt = this.desserts[0].target.toString()
+        }
+      }
+      if (val === 2) {
+        var valor2 = this.desserts[11].target / 12
+        for (var item2 in this.desserts) {
+          this.desserts[item2].textt = (valor2 * item).toString()
+        }
+      }
+      if (val === 1) {
+        var valor = this.desserts[0].target
+        for (var item1 of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+          this.desserts[item1 - 1].textt = (valor * item1).toString()
+        }
+      }
+    },
+    selecchart (index) {
+      for (var item in this.charts) {
+        this.charts[item].select = false
+        this.charts[item].color = ''
+      }
+      this.charts[index].select = true
+      this.charts[index].color = 'success'
+      this.edit.chart = this.charts[index].text
+      this.chartOptions.chart.type = this.charts[index].type
     }
   }
 }

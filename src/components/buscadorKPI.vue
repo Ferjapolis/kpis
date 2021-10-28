@@ -36,7 +36,7 @@ export default {
     search () {
       axios.get('http://192.168.0.127:5000/kpis', {
         params: {
-          area: this.$store.state.area
+          file: this.$store.state.area
         }
       },
       {
