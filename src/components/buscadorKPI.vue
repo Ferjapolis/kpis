@@ -51,7 +51,7 @@ export default {
           this.count = response.data.lista.count
           this.entries = response.data.lista.entries
         }).catch(function (error) {
-          console.log(error)
+          console.log('error:' + error)
         })
     }
   }
