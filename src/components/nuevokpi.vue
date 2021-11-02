@@ -397,11 +397,12 @@ export default {
       if (this.valid) {
         if (this.edit.pilar != null & this.edit.kpi !== '') {
           this.edit.area = this.$store.state.area
-          axios.post('http://192.168.0.127:5000/kpis', this.edit, {
+          axios.post('https://xu7cyyauhe.execute-api.us-east-1.amazonaws.com/web/perfiles', this.edit, {
             headers: {
               'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-key,X-Amz-Security-Token',
+              'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2lIN5SSmXw43'
             }
           })
             .then(response => {
@@ -416,15 +417,16 @@ export default {
       }
     },
     kpidatos (area, kpiname) {
-      axios.post('http://192.168.0.127:5000/registro', {
+      axios.post('https://xu7cyyauhe.execute-api.us-east-1.amazonaws.com/web/registros', {
         folder: area,
         file: kpiname,
         lista: this.desserts
       }, {
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-key,X-Amz-Security-Token',
+          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2lIN5SSmXw43'
         }
       })
         .then(response => {

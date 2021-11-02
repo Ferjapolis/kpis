@@ -34,16 +34,17 @@ export default {
       this.$store.commit('selectKpi', '')
     },
     search () {
-      axios.get('http://192.168.0.127:5000/kpis', {
+      axios.get('https://xu7cyyauhe.execute-api.us-east-1.amazonaws.com/web/perfiles', {
         params: {
           file: this.$store.state.area
         }
       },
       {
-        headers: {
+        header: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-key,X-Amz-Security-Token',
+          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2lIN5SSmXw43'
         }
       })
         .then(response => {

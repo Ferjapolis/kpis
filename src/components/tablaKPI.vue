@@ -203,12 +203,13 @@ export default {
       this.save()
     },
     guardar () {
-      const formData = { lista: this.desserts, kpi: this.kpi.kpi }
-      axios.post('http://192.168.0.127:5000/registro', formData, {
+      const formData = { data: this.desserts, file: this.kpi.kpi, folder: this.$store.state.areas }
+      axios.post('https://xu7cyyauhe.execute-api.us-east-1.amazonaws.com/web/registros', formData, {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+          'Content-Type': 'Application/json',
+          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2IIN5SSmXw43'
         }
       })
         .then(response => {
@@ -218,7 +219,7 @@ export default {
         })
     },
     datos () {
-      axios.get('http://192.168.0.127:5000/registro', {
+      axios.get('https://xu7cyyauhe.execute-api.us-east-1.amazonaws.com/web/registros', {
         params: {
           kpi: this.kpi.kpi
         }
@@ -227,7 +228,8 @@ export default {
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+          'Content-Type': 'Application/json',
+          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2IIN5SSmXw43'
         }
       })
         .then(response => {

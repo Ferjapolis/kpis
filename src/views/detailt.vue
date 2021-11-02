@@ -14,10 +14,10 @@
         <v-col>
             <v-row class="mb-5">
           <v-app-bar dense dark :color="pilar.color">
-            <v-avatar size="90">
-                <v-icon x-large>mdi-alarm-light-outline</v-icon>
+            <v-avatar size="80">
+              <v-icon>mdi-alert</v-icon>
             </v-avatar>
-            <v-toolbar-title>{{pilar.pilar}}</v-toolbar-title>
+            <v-toolbar-title><strong>{{pilar.pilar}}</strong></v-toolbar-title>
             <v-spacer></v-spacer>
             <p>{{pilar.kpis.length}} KPI</p>
             <v-btn icon @click="mostrar(k)">
@@ -52,7 +52,7 @@ export default {
       pilar: 'People',
       color: '#694664',
       kpis: [],
-      icon: '../img/001.png',
+      icon: '../img/Encabezado-06.jpg',
       show: false
     },
     {
@@ -109,15 +109,16 @@ export default {
       }
     },
     actualizar () {
-      axios.get('http://192.168.0.127:5000/ppt', {
+      axios.get('https://xu7cyyauhe.execute-api.us-aest1.amazonaws.com/web/ppt', {
         params: {
           area: this.$store.state.area
         }
       }, {
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-key,X-Amz-Security-Token',
+          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2IIN5SSmXw43'
         }
       })
         .then(response => {
