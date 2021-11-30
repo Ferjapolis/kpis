@@ -109,16 +109,13 @@ export default {
       }
     },
     actualizar () {
-      axios.get('https://xu7cyyauhe.execute-api.us-aest1.amazonaws.com/web/ppt', {
+      axios.get('https://xu7cyyauhe.execute-api.us-aest1.amazonaws.com/web/ppt/', {
+        Headers: {
+          'Content-Type': 'application/json',
+          'X-API-KEY': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2lIN5SSmXw43'
+        },
         params: {
-          area: this.$store.state.area
-        }
-      }, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-key,X-Amz-Security-Token',
-          'x-api-key': 'mrxZckPp6Z6Pjtu2vv9ni3u5rLKZ2IIN5SSmXw43'
+          file: this.$store.state.area
         }
       })
         .then(response => {
