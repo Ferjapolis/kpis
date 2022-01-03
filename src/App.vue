@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
+  <v-app v-bind:style="{ background: 'linear-gradient(56deg, rgb(2 0 36 / 80%) 0%, rgba(16,56,79,0.8911939775910365) 35%, rgb(0 188 255 / 75%) 100%)' }">
+    <v-app-bar app id="app-header">
       <h1>Manager KPI <span>v1</span> </h1>
       <v-spacer></v-spacer>
       <nuevokpi  v-if="show"/>

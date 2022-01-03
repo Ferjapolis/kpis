@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container id="edit-kpi-container">
     <v-row>
       <v-col cols="1">
         <v-btn @click="volver" icon><v-icon>mdi-arrow-left</v-icon></v-btn>
@@ -17,7 +17,7 @@
       <v-btn>Edit</v-btn>
     </v-row>
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col cols="4" id="edit-kpi-tabla-kpi-container" style="border-color: #939cff">
         <Form />
       </v-col>
       <v-col cols="3">
@@ -64,7 +64,7 @@
         </v-card>
         </div>
       </v-col>
-      <v-col cols="5">
+      <v-col cols="5" id="edit-kpi-chart-container">
         <Chart/>
          <h5 class="pt-6">last update: {{kpi.update}}</h5>
       </v-col>
