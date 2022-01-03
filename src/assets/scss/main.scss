@@ -1,0 +1,37 @@
+.style-card {
+    //margin: 0;
+    border-radius: 30px;
+    opacity: 0.8;
+
+    &:hover {
+        //background-color: rgb(168, 5, 5) !important;
+        transition: linear 0.2s !important;
+    }
+
+    .card-text-style
+    {
+        font-size: 3em !important;
+        font-weight: 100;
+    }
+
+}
+
+#app-header {
+    background-color: powderblue;
+
+    h1 {
+        color: red;
+        text-align: center;
+    }
+
+    span {
+        color: yellow;
+    }
+
+    button {
+        span {
+            color: green;
+        }
+    }
+}
+

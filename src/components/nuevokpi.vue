@@ -28,95 +28,100 @@
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-row class="pt-4">
-            <v-col cols="3" class="pl-14">
+            <v-col cols="4" class="pl-14">
+              <v-col cols="12"  id="agregar-kpi">
+                <v-select v-model="edit.pilar" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar"
+                  required>
+                </v-select>
 
-              <v-select v-model="edit.pilar" :items="items" :rules="[v => !!v || 'Pilar is required']" label="Pilar"
-                required>
-              </v-select>
-
-              <v-text-field v-model="edit.kpi" :rules="nameRules" label="KPI" required></v-text-field>
-              <v-text-field v-model="edit.owner" :rules="nameRules" label="Owner" required></v-text-field>
-              <v-row class="mb-7">
-                <v-col class="px-2">
-                  <v-text-field class="text-center" v-model="edit.fcst" label="FCST"></v-text-field>
-                </v-col>
-                <v-col class="px-2">
-                  <v-select v-model="edit.datatype" :items="datatype" :rules="[v => !!v || 'Type is required']"
-                    label="Tipo de dato" required>
-                  </v-select>
-                </v-col>
-              </v-row>
-              <v-row class="mb-7">
-                <v-col class="px-2">
-                  <v-select v-model="edit.calc_ytd" :items="calc" :rules="[v => !!v || 'Calc is required']"
-                    label="Tipo de Calc." required>
-                  </v-select>
-                </v-col>
-                <v-col class="px-2">
-                  <v-select v-model="edit.rule" :items="rule" :rules="[v => !!v || 'Type is required']"
-                    label="Tipo de Regla" required>
-                  </v-select>
-                </v-col>
-              </v-row>
-              <v-row class="pt-4 pl-9 pb-7">
-                <h4>Tipo de Gráfico:</h4>
-              </v-row>
-              <v-row>
-                <template v-for="(chart,k) in charts">
-                  <v-tooltip :key="k" bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn class="mx-1 mb-2" :color="chart.color" @click="selecchart(k)" v-bind="attrs"
-                        v-on="on">
-                        <v-icon large>{{chart.icon}}</v-icon>
-                      </v-btn>
+                <v-text-field v-model="edit.kpi" :rules="nameRules" label="KPI" required></v-text-field>
+                <v-text-field v-model="edit.owner" :rules="nameRules" label="Owner" required></v-text-field>
+                <v-row class="mb-7">
+                  <v-col class="px-2">
+                    <v-text-field class="text-center" v-model="edit.fcst" label="FCST"></v-text-field>
+                  </v-col>
+                  <v-col class="px-2">
+                    <v-select v-model="edit.datatype" :items="datatype" :rules="[v => !!v || 'Type is required']"
+                      label="Tipo de dato" required>
+                    </v-select>
+                  </v-col>
+                </v-row>
+                <v-row class="mb-7">
+                  <v-col class="px-2">
+                    <v-select v-model="edit.calc_ytd" :items="calc" :rules="[v => !!v || 'Calc is required']"
+                      label="Tipo de Calc." required>
+                    </v-select>
+                  </v-col>
+                  <v-col class="px-2">
+                    <v-select v-model="edit.rule" :items="rule" :rules="[v => !!v || 'Type is required']"
+                      label="Tipo de Regla" required>
+                    </v-select>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="12">
+                <div class="pt-14" id="tabla-kpi">
+                  <v-row style="font-size:2em">
+                    <v-col cols="5">
+                      <h5 class="text-center">Mes</h5>
+                    </v-col>
+                    <v-col cols="3">
+                      <h5 class="text-center">Valor</h5>
+                    </v-col>
+                    <v-col cols="3">
+                      <h5 class="text-center">Target</h5>
+                    </v-col>
+                  </v-row>
+                  <v-row v-for="(mes, k) in desserts" :key="k" class="table-row">
+                    <v-col cols="5" justify="right">
+                      <h4 class="pl-4 text-right pr-4" style="text-align: center !important;">{{mes.name}}</h4>
+                    </v-col>
+                    <v-divider vertical></v-divider>
+                    <v-col cols="3">
+                      <v-text-field class="text-center" dense v-model="desserts[k].valor"
+                        :placeholder="desserts[k].textv"></v-text-field>
+                    </v-col>
+                    <v-divider vertical></v-divider>
+                    <v-col cols="3">
+                      <v-text-field class="text-center" @change.capture="test" @keyup.down="forcetargets(k)" dense
+                        v-model="desserts[k].target" :placeholder="desserts[k].textt"></v-text-field>
+                    </v-col>
+                    <v-divider vertical></v-divider>
+                  </v-row>
+                </div>
+                <v-row justify="center">
+                  <v-spacer></v-spacer>
+                  <v-col class="pl-16">
+                    <v-switch v-model="autotarget" label="Target inteligente" right></v-switch>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                </v-row>
+              </v-col>
+            </v-col>
+            <v-col cols="8" class="d-flex align-center">
+              <v-row class="d-row align-content-center pa-10">
+                <v-col cols="12">
+                  <v-row class="pt-4 pl-9 pb-7 justify-center">
+                    <h4 style="font-size:2em">Tipo de Gráfico:</h4>
+                  </v-row>
+                  <v-row class="d-flex flex-row justify-center row">
+                    <template v-for="(chart,k) in charts">
+                      <v-tooltip :key="k" bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn class="mx-1 mb-2" :color="chart.color" @click="selecchart(k)" v-bind="attrs"
+                            v-on="on">
+                            <v-icon large>{{chart.icon}}</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Gráfico {{chart.text}}</span>
+                      </v-tooltip>
                     </template>
-                    <span>Gráfico {{chart.text}}</span>
-                  </v-tooltip>
-                </template>
-              </v-row>
-            </v-col>
-            <v-col cols="3">
-              <div class="pt-14">
-                <v-row>
-                  <v-col cols="5">
-                    <h5 class="text-center">Mes</h5>
-                  </v-col>
-                  <v-col cols="3">
-                    <h5 class="text-center">Valor</h5>
-                  </v-col>
-                  <v-col cols="3">
-                    <h5 class="text-center">Target</h5>
-                  </v-col>
-                </v-row>
-                <v-row v-for="(mes, k) in desserts" :key="k">
-                  <v-col cols="5" justify="right">
-                    <h4 class="pl-4 text-right pr-4">{{mes.name}}</h4>
-                  </v-col>
-                  <v-divider vertical></v-divider>
-                  <v-col cols="3">
-                    <v-text-field class="text-center" dense v-model="desserts[k].valor"
-                      :placeholder="desserts[k].textv"></v-text-field>
-                  </v-col>
-                  <v-divider vertical></v-divider>
-                  <v-col cols="3">
-                    <v-text-field class="text-center" @change.capture="test" @keyup.down="forcetargets(k)" dense
-                      v-model="desserts[k].target" :placeholder="desserts[k].textt"></v-text-field>
-                  </v-col>
-                  <v-divider vertical></v-divider>
-                </v-row>
-              </div>
-              <v-row justify="center">
-                <v-spacer></v-spacer>
-                <v-col class="pl-16">
-                  <v-switch v-model="autotarget" label="Target inteligente" right></v-switch>
+                  </v-row>
                 </v-col>
-                <v-spacer></v-spacer>
+                <v-col cols="12">
+                  <highcharts class="pt-15" :options="chartOptions" ref="chart"></highcharts>
+                </v-col>
               </v-row>
-            </v-col>
-            <v-col cols="5">
-              <div>
-                <highcharts class="pt-15" :options="chartOptions" ref="chart"></highcharts>
-              </div>
             </v-col>
           </v-row>
 
