@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import HighchartsVue from 'highcharts-vue'
+import '@/assets/scss/main.scss'
 
 Vue.use(HighchartsVue)
 Vue.config.productionTip = false

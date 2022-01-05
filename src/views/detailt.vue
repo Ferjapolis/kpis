@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row class="pb-4">
+  <v-container id="detail-kpi">
+    <v-row class="pb-4 detail-kpi-title">
       <v-col cols="1">
         <v-btn @click="volver" icon>
           <v-icon>mdi-arrow-left</v-icon>
@@ -10,9 +10,9 @@
         <h2>{{$store.state.area}}</h2>
       </v-col>
     </v-row>
-    <v-row v-for="(pilar, k) in pilares" :key="k">
+    <v-row v-for="(pilar, k) in pilares" :key="k" class="kpi-pilar-list-item">
         <v-col>
-            <v-row class="mb-5">
+            <v-row >
           <v-app-bar dense dark :color="pilar.color">
             <v-avatar size="80">
               <v-icon>mdi-alert</v-icon>
