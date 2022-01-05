@@ -1,5 +1,6 @@
 <template>
   <v-container id="detail-kpi">
+    <div id="detail-kpi-container">
     <v-row class="pb-4 detail-kpi-title">
       <v-col cols="1">
         <v-btn @click="volver" icon>
@@ -39,6 +40,7 @@
         </v-row>
         </v-col>
     </v-row>
+    </div>
   </v-container>
 </template>
 
