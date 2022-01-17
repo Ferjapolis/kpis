@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex" v-bind:style="{ height: '100%', background: 'linear-gradient(56deg, rgb(2 0 36 / 80%) 0%, rgba(16,56,79,0.8911939775910365) 35%, rgb(0 188 255 / 75%) 100%)' }">
-    <v-container class="align-self-center container-fluid" style="height:60%">
+    <v-container class="align-self-center container-fluid" style="height:80%">
       <v-row align="center" justify="center" class="d-flex flex-row flex-wrap justify-content-center" style="height:100%">
         <v-column class="d-flex flex-column col-4 pa-0" style="height: 100%">
           <v-card v-for="n in [0]" :key="n" class="style-card d-flex flex-column justify-center align-center ma-1" :disabled="lista[n].disabled" v-bind:style="lista[n].style">
@@ -86,28 +86,28 @@ export default {
         name: 'BFT',
         disabled: false,
         style: {
-          height: '70%',
+          height: '60%',
           borderColor: '#FF3062'
         }
       }, {
         name: 'DRY',
         disabled: false,
         style: {
-          height: '30%',
+          height: '40%',
           borderColor: '#99D3F2'
         }
       }, {
         name: 'PACK',
         disabled: false,
         style: {
-          height: '30%',
+          height: '40%',
           borderColor: '#00BCFF'
         }
       }, {
         name: 'HSE',
         disabled: false,
         style: {
-          height: '70%',
+          height: '60%',
           borderColor: '#5EB346'
         }
       }

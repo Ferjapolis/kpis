@@ -60,7 +60,7 @@
                 </v-row>
               </v-col>
               <v-col cols="12" class="pa-4 mt-1" id="new-kpi-table-box">
-                <div>
+                <div class="container-scrollable">
                   <v-row>
                     <v-col cols="5">
                       <h5 class="text-center">Mes</h5>
@@ -97,7 +97,7 @@
             <v-col cols="7" class="align-center">
               <div v-bind:style="{ height: '100%'}" class="col-12 pa-4">
                 <v-col cols="12" id="new-kpi-graphic-buttons" class="mt-5">
-                  <v-row class="justify-center">
+                  <v-row class="justify-center title-container">
                     <h4>Tipo de Gráfico</h4>
                   </v-row>
                   <v-row class="d-flex flex-row justify-center row">

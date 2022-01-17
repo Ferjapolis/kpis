@@ -1,10 +1,10 @@
 <template>
   <v-container id="edit-kpi-container">
-    <v-row>
-      <v-col cols="1">
+    <v-row class="edit-kpi-title">
+      <v-col cols="4">
         <v-btn @click="volver" icon><v-icon>mdi-arrow-left</v-icon></v-btn>
       </v-col>
-      <v-col cols="2"><h2>{{$store.state.area}}</h2></v-col>
+      <v-col cols="8"><h2>{{$store.state.area}}</h2></v-col>
     </v-row>
     <v-row justify="center">
       <v-col cols="3">
@@ -16,12 +16,12 @@
       <v-spacer></v-spacer>
       <v-btn>Edit</v-btn>
     </v-row>
-    <v-row justify="center">
+    <v-row justify="center" id="edit-kpi-section">
       <v-col cols="4" id="edit-kpi-tabla-kpi-container" style="border-color: #939cff">
         <Form />
       </v-col>
-      <v-col cols="3">
-        <div class="pb-3">
+      <v-col cols="3" id="edit-kpi-kpis-container">
+        <div class="pb-3 kpi">
           <v-card class="my-auto ma-3" width="150" outlined>
             <v-list-item three-line>
               <v-list-item-content>
@@ -35,7 +35,7 @@
             </v-list-item>
           </v-card>
         </div>
-        <div class="pb-3">
+        <div class="pb-3 kpi">
         <v-card class="my-auto ma-3" width="150" outlined>
           <v-list-item three-line>
             <v-list-item-content>
@@ -49,7 +49,7 @@
           </v-list-item>
         </v-card>
         </div>
-        <div class="pb-3">
+        <div class="pb-2 kpi">
         <v-card class="my-auto ma-3" width="150" outlined>
           <v-list-item three-line>
             <v-list-item-content>
