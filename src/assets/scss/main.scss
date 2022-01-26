@@ -43,9 +43,9 @@
     #new-kpi-container
     {
         position: absolute;
-        top: 50%;
+        top: 55%;
         transform: translateY(-50%);
-        height: 85%;
+        height: 93%;
         width: 100%;
         left: 0;
     }
@@ -222,6 +222,7 @@
 
     #edit-kpi-tabla-kpi-container
     {
+        height: 100%;
         background-color: white;
         border: 5px solid;
         border-radius: 15px;
@@ -231,10 +232,11 @@
 
     #edit-kpi-kpis-container
     {
+        height: 100%;
         .kpi
         {
-            min-height: 145px;
-            height: 33.3%;
+            min-height: 130px;
+            height: 30%;
 
             .v-card
             {
@@ -252,6 +254,17 @@
                     background-color: white;
                 }
             }
+        }
+    }
+
+    #edit-kpi-chart-container
+    {
+        position: relative;
+
+        h5
+        {
+            position: absolute;
+            top: -10%;
         }
     }
 }
